@@ -40,7 +40,7 @@ group = "com.paozhuanyinyu"
 //发布到JCenter上的项目名字，必须填写
 def libName = "XPermission"
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0"
+version = "1.0.0"
 /**  上面配置后上传至jcenter后的编译路径是这样的： compile 'cn.bluemobi.dylan:sqlitelibrary:1.0'  **/
 
 //生成源文件
@@ -76,7 +76,12 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
+//上传到jcenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def developerName = properties.getProperty("developer.name")
+def developerId = properties.getProperty("developer.id")
+def developerEmail = properties.getProperty("developer.email")
 // 配置maven库，生成POM.xml文件
 install {
     repositories.mavenInstaller {
@@ -94,9 +99,9 @@ install {
                 }
                 developers {
                     developer {
-                        id 'paozhuanyinyu'
-                        name 'Kevien'
-                        email 'wuhuissds@163.com'
+                        id developerId
+                        name developerName
+                        email developerEmail
                     }
                 }
                 scm {
@@ -109,9 +114,7 @@ install {
     }
 }
 
-//上传到jcenter
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//命令gradlew bintrayUpload
 bintray {
     user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
     key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
