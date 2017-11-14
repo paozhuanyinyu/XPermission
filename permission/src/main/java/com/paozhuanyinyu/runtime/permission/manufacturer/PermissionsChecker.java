@@ -7,6 +7,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -76,7 +77,7 @@ public class PermissionsChecker {
                     return checkBodySensors(activity);
 
                 case Manifest.permission.CAMERA:
-                    return defaultValue;
+                    return checkCamera(activity);
 
                 case Manifest.permission.ACCESS_COARSE_LOCATION:
                 case Manifest.permission.ACCESS_FINE_LOCATION:
@@ -107,7 +108,18 @@ public class PermissionsChecker {
             return false;
         }
     }
-
+    private static boolean checkCamera(Context context){
+        Camera mCamera = null;
+        try{
+            mCamera = Camera.open(0);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(mCamera==null){
+            return false;
+        }
+        return true;
+    }
     /**
      * record audio, {@link Manifest.permission#RECORD_AUDIO},
      * it will consume some resource!!

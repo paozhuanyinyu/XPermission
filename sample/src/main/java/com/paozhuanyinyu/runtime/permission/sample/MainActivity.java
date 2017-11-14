@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ListView ll_permissions;
     private ArrayMap map;
     private String[] permissions = {
+            Manifest.permission.CAMERA,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.WRITE_CONTACTS,
             Manifest.permission.READ_PHONE_STATE,
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_SMS,
     };
     private String[] permissionDiscription = {
+            "拍照(CAMERA)",
             "读取联系人(READ_CONTACTS)",
             "写入联系人(WRITE_CONTACTS)",
             "读取手机状态(READ_PHONE_STATE)",

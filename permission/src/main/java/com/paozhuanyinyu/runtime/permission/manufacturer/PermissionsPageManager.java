@@ -15,6 +15,8 @@ public class PermissionsPageManager {
     static final String MANUFACTURER_VIVO = "vivo";
     static final String MANUFACTURER_MEIZU = "meizu";
     static final String MANUFACTURER_GIONEE = "GIONEE";
+    static final String MANUFACTURER_COOLPAD = "COOLPAD";
+    static final String MANUFACTURER_NUBIA = "NUBIA";
     static final String manufacturer = Build.MANUFACTURER;
 
     public static String getManufacturer() {
