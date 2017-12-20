@@ -147,6 +147,12 @@ public class XPermission {
 //        }
         return PermissionsPageManager.getIntent(context);
     }
+    public Intent getSettingsIntent(Context context,String permission){
+//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+//            return new Protogenesis().settingIntent(context);
+//        }
+        return PermissionsPageManager.getIntent(context,permission);
+    }
     private Observable<Permission> request(final Context context,final Observable<?> trigger, final String... permissions) {
         if (permissions == null || permissions.length == 0) {
             throw new IllegalArgumentException("XPermission.request/requestEach requires at least one input permission");

@@ -16,6 +16,12 @@ compile 'io.reactivex.rxjava2:rxjava:2.0.6'//由于依赖RxJava2,所以使用时
   <version>1.0.0</version>
   <type>pom</type>
 </dependency>
+<dependency>
+  <groupId>io.reactivex.rxjava2</groupId>
+  <artifactId>rxjava</artifactId>
+  <version>2.0.6</version>
+  <type>pom</type>
+</dependency>
 ```
 
 ## 使用

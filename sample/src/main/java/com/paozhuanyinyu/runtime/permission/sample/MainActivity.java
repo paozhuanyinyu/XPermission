@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_SMS,
+            Manifest.permission.SYSTEM_ALERT_WINDOW,
+            Manifest.permission.WRITE_SETTINGS,
     };
     private String[] permissionDiscription = {
             "拍照(CAMERA)",
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
             "写入存储(WRITE_EXTERNAL_STORAGE)",
             "录音(RECORD_AUDIO)",
             "短信(READ_SMS)",
-
+            "系统弹窗(SYSTEM_ALERT_WINDOW)",
+            "修改设置(WRITE_SETTINGS)",
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(XPermission.getInstance().getSettingsIntent(MainActivity.this));
             }
         });
+
+        Button bt_alert = (Button) findViewById(R.id.bt_alert);
+        bt_alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(XPermission.getInstance().getSettingsIntent(MainActivity.this,Manifest.permission.SYSTEM_ALERT_WINDOW));
+            }
+        });
+
+        Button bt_write_settings = (Button) findViewById(R.id.bt_write_settings);
+        bt_write_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(XPermission.getInstance().getSettingsIntent(MainActivity.this,Manifest.permission.WRITE_SETTINGS));
+            }
+        });
+
         MyAdapter myAdapter = new MyAdapter(this,permissionDiscription);
         ll_permissions.setAdapter(myAdapter);
         myAdapter.setOnItemClickListener(new MyAdapter.onItemClickListener() {
@@ -84,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 }else if(permission.shouldShowRequestPermissionRationale){
                                     Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
                                 }else{
-                                    //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context)
+                                    //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context,String permission)
                                     Toast.makeText(MainActivity.this,"请去设置里面开启授权",Toast.LENGTH_SHORT).show();
                                 }
                             }

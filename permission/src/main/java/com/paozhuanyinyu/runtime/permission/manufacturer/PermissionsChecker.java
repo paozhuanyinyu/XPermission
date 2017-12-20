@@ -2,11 +2,15 @@ package com.paozhuanyinyu.runtime.permission.manufacturer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -16,17 +20,28 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.provider.Telephony;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.paozhuanyinyu.rxpermissions.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -43,7 +58,7 @@ public class PermissionsChecker {
      * @param permission
      * @return true if granted else denied
      */
-    public static boolean isPermissionGranted(Context activity, String permission,boolean defaultValue) {
+    public static boolean isPermissionGranted(Context activity, String permission, boolean defaultValue) {
         try {
             switch (permission) {
                 case Manifest.permission.READ_CONTACTS:
@@ -99,15 +114,59 @@ public class PermissionsChecker {
                 case Manifest.permission.RECEIVE_MMS:
                 case Manifest.permission.RECEIVE_SMS:
                     return defaultValue;
+                case Manifest.permission.SYSTEM_ALERT_WINDOW:
+                    boolean isCanDrawOverlays = true;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        isCanDrawOverlays = Settings.canDrawOverlays(activity);
+                    }
+                    return isCanDrawOverlays;
+                case Manifest.permission.WRITE_SETTINGS:
+                    boolean isCanWrite = true;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        isCanWrite = Settings.System.canWrite(activity);
+                    }
+                    return isCanWrite;
                 default:
                     return defaultValue;
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "throwing exception in PermissionChecker:  ", e);
-            return false;
         }
+        return false;
     }
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+//    private static void show(Context mContext) {
+//        WindowManager mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+//        WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+//        wmParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+//        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+//        wmParams.gravity = Gravity.CENTER;
+//        wmParams.format = PixelFormat.RGBA_8888;
+//        wmParams.x = mContext.getResources().getDisplayMetrics().widthPixels;
+//        wmParams.y = 0;
+//
+//        wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//        wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//
+//        View mView = LayoutInflater.from(mContext).inflate(R.layout.layout_log_float_window, null);
+//        mWindowManager.addView(mView, wmParams);
+//
+//        Log.d(TAG,String.valueOf(mView.isShown()));
+//        Log.d(TAG,String.valueOf(mWindowManager.getDefaultDisplay().getDisplayId()));
+//        Rect rect = new Rect();
+//        Log.d(TAG,String.valueOf(mView.getGlobalVisibleRect(rect)));
+//        Log.d(TAG,String.valueOf(rect.top));
+//        Log.d(TAG,String.valueOf(rect.bottom));
+//        Log.d(TAG,String.valueOf(rect.left));
+//        Log.d(TAG,String.valueOf(rect.right));
+//        Rect rect1 = new Rect();
+//        Log.d(TAG,String.valueOf(mView.getLocalVisibleRect(rect1)));
+//        Log.d(TAG,String.valueOf(rect1.top));
+//        Log.d(TAG,String.valueOf(rect1.bottom));
+//        Log.d(TAG,String.valueOf(rect1.left));
+//        Log.d(TAG,String.valueOf(rect1.right));
+//    }
     private static boolean checkCamera(Context context){
         Camera mCamera = null;
         try{

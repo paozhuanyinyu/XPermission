@@ -1,5 +1,6 @@
 package com.paozhuanyinyu.runtime.permission;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -67,18 +68,22 @@ public class XPermissionActivity extends Activity{
             boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             boolean showRequestPermissionRationale = shouldShowRequestPermissionRationale[i];
             log("granted: " + granted + "; showRequestPermissionRationale: " + showRequestPermissionRationale);
-            if(granted){
-                if(PermissionsChecker.isPermissionGranted(this,permissions[i],true)){
-                    granted = true;
-                }else{
-                    granted = false;
-                    showRequestPermissionRationale = false;
-                }
-            }else if(showRequestPermissionRationale){
-                if(PermissionsChecker.isPermissionGranted(this,permissions[i],false)){
-                    granted = true;
-                }else{
-                    granted = false;
+            if(Manifest.permission.WRITE_SETTINGS.equals(permissions[i]) || Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permissions[i])){
+                granted = PermissionsChecker.isPermissionGranted(this,permissions[i],false);
+            }else{
+                if(granted){
+                    if(PermissionsChecker.isPermissionGranted(this,permissions[i],true)){
+                        granted = true;
+                    }else{
+                        granted = false;
+                        showRequestPermissionRationale = false;
+                    }
+                }else if(showRequestPermissionRationale){
+                    if(PermissionsChecker.isPermissionGranted(this,permissions[i],false)){
+                        granted = true;
+                    }else{
+                        granted = false;
+                    }
                 }
             }
             subject.onNext(new Permission(permissions[i], granted, showRequestPermissionRationale));

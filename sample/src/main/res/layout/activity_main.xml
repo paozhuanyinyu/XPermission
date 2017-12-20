@@ -13,7 +13,22 @@
 
     <Button
         android:id="@+id/bt_collect"
-        android:text="跳转界面"
+        android:text="跳转权限管理界面"
+        android:textColor="#000000"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_alert"
+        android:text="跳转系统弹窗管理界面"
+        android:textColor="#000000"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_write_settings"
+        android:text="跳转修改设置界面"
         android:textColor="#000000"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.paozhuanyinyu.runtime.permission.sample"
-        minSdkVersion 14
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -15,7 +15,6 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
-    buildToolsVersion '26.0.2'
 }
 
 dependencies {

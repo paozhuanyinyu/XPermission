@@ -1,8 +1,11 @@
 package com.paozhuanyinyu.runtime.permission.manufacturer;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 public class PermissionsPageManager {
@@ -22,7 +25,15 @@ public class PermissionsPageManager {
     public static String getManufacturer() {
         return manufacturer;
     }
-
+    public static Intent getIntent(Context context,String permission) {
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M&&Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permission)){
+            return new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
+        }else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M&&Manifest.permission.WRITE_SETTINGS.equals(permission)){
+            return new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + context.getPackageName()));
+        }else{
+            return getIntent(context);
+        }
+    }
     public static Intent getIntent(Context context) {
         //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
 
