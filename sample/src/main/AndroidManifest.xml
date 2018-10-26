@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <application
+        android:name="com.paozhuanyinyu.runtime.permission.sample.MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"

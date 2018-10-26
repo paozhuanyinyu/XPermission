@@ -155,17 +155,18 @@ public class XPermissionActivity extends Activity{
                 finish();
             }
         });
-        builder.build().setOnCancelListener(new DialogInterface.OnCancelListener() {
+        MyDialog dialog = builder.build();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
                 subject.onNext(new Permission(name, false, false));
                 subject.onComplete();
                 mSubjects.remove(name);
                 finish();
             }
         });
-        builder.build().show();
+        dialog.show();
     }
 
     public static PublishSubject<Permission> getSubjectByPermission(@NonNull String permission) {

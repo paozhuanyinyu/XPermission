@@ -94,23 +94,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int i) {
                 Log.e("MainActivity","onItemClick");
-                XPermission.getInstance()
-                        .requestEach(MainActivity.this,new Params(permissions[i],permissionDiscription[i]))
-                        .subscribe(new Consumer<Permission>() {
-                            @Override
-                            public void accept(Permission permission) throws Exception {
-                                if(permission.granted){
-                                    Toast.makeText(MainActivity.this,"授权成功",Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
-                                }
-//                                else{
-//                                    //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context,String permission)
-//                                    Toast.makeText(MainActivity.this,"请去设置里面开启授权",Toast.LENGTH_SHORT).show();
-//                                }
-                            }
-                        });
+                PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i], new IPermissionResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if(code==IPermissionResponse.SUCCESS){
+                            Toast.makeText(MainActivity.this,"授权成功",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
 
             @Override
