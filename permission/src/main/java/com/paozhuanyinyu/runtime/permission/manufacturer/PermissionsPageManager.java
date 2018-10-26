@@ -26,9 +26,9 @@ public class PermissionsPageManager {
         return manufacturer;
     }
     public static Intent getIntent(Context context,String permission) {
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M&&Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permission)){
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permission)){
             return new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
-        }else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M&&Manifest.permission.WRITE_SETTINGS.equals(permission)){
+        }else if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && Manifest.permission.WRITE_SETTINGS.equals(permission)){
             return new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + context.getPackageName()));
         }else{
             return getIntent(context);
@@ -36,7 +36,6 @@ public class PermissionsPageManager {
     }
     public static Intent getIntent(Context context) {
         //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
-
         PermissionsPage permissionsPage = new Protogenesis();
         try {
             if (MANUFACTURER_HUAWEI.equalsIgnoreCase(manufacturer)) {
@@ -47,9 +46,11 @@ public class PermissionsPageManager {
                 permissionsPage = new VIVO();
             } else if (MANUFACTURER_XIAOMI.equalsIgnoreCase(manufacturer)) {
                 permissionsPage = new XIAOMI();
-            } else if (MANUFACTURER_MEIZU.equalsIgnoreCase(manufacturer)) {
-                permissionsPage = new MEIZU();
-            } else if(MANUFACTURER_GIONEE.equalsIgnoreCase(manufacturer)){
+            }
+//            else if (MANUFACTURER_MEIZU.equalsIgnoreCase(manufacturer)) {
+//                permissionsPage = new MEIZU();
+//            }
+            else if(MANUFACTURER_GIONEE.equalsIgnoreCase(manufacturer)){
                 permissionsPage = new GIONEE();
             }
             return permissionsPage.settingIntent(context);

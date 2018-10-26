@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.paozhuanyinyu.runtime.permission.Params;
 import com.paozhuanyinyu.runtime.permission.Permission;
 import com.paozhuanyinyu.runtime.permission.XPermission;
 import com.paozhuanyinyu.runtime.sample.R;
-
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,22 +41,22 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_SETTINGS,
     };
     private String[] permissionDiscription = {
-            "拍照(CAMERA)",
-            "读取联系人(READ_CONTACTS)",
-            "写入联系人(WRITE_CONTACTS)",
-            "读取手机状态(READ_PHONE_STATE)",
-            "读取通话记录(READ_CALL_LOG)",
-            "写入通话记录(WRITE_CALL_LOG)",
-            "读取日历(READ_CALENDAR)",
-            "传感器(BODY_SENSORS)",
-            "GPS定位(ACCESS_COARSE_LOCATION)",
-            "基站定位(ACCESS_FINE_LOCATION)",
-            "读取存储(READ_EXTERNAL_STORAGE)",
-            "写入存储(WRITE_EXTERNAL_STORAGE)",
-            "录音(RECORD_AUDIO)",
-            "短信(READ_SMS)",
-            "系统弹窗(SYSTEM_ALERT_WINDOW)",
-            "修改设置(WRITE_SETTINGS)",
+            "拍照",
+            "读取联系人",
+            "写入联系人",
+            "读取手机状态",
+            "读取通话记录",
+            "写入通话记录",
+            "读取日历",
+            "传感器",
+            "GPS定位",
+            "基站定位",
+            "读取存储",
+            "写入存储",
+            "录音",
+            "短信",
+            "系统弹窗",
+            "修改设置",
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,18 +95,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(int i) {
                 Log.e("MainActivity","onItemClick");
                 XPermission.getInstance()
-                        .requestEach(MainActivity.this,permissions[i])
+                        .requestEach(MainActivity.this,new Params(permissions[i],permissionDiscription[i]))
                         .subscribe(new Consumer<Permission>() {
                             @Override
                             public void accept(Permission permission) throws Exception {
                                 if(permission.granted){
                                     Toast.makeText(MainActivity.this,"授权成功",Toast.LENGTH_SHORT).show();
-                                }else if(permission.shouldShowRequestPermissionRationale){
-                                    Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
-                                }else{
-                                    //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context,String permission)
-                                    Toast.makeText(MainActivity.this,"请去设置里面开启授权",Toast.LENGTH_SHORT).show();
                                 }
+                                else{
+                                    Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
+                                }
+//                                else{
+//                                    //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context,String permission)
+//                                    Toast.makeText(MainActivity.this,"请去设置里面开启授权",Toast.LENGTH_SHORT).show();
+//                                }
                             }
                         });
             }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white_common">#F8F8F8</color>
+    <color name="color_divider_line">#dddddd</color>
+    <color name="color_text_title">#000000</color>
+    <color name="color_text_message">#444444</color>
+    <color name="lightblue">#0083FF</color>
+</resources>

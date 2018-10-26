@@ -317,7 +317,9 @@ public class PermissionsChecker {
             return true;
         } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
             return true;
-        } else {
+        } else if(list.contains(LocationManager.PASSIVE_PROVIDER)){
+            return true;
+        }else {
             if (!locationManager.isProviderEnabled("gps")) {
                 try {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, new

@@ -61,7 +61,7 @@ public class XPermission {
      * to ask the user if he allows the permissions.
      */
     @SuppressWarnings("WeakerAccess")
-    public <T> ObservableTransformer<T, Boolean> ensure(final Context context,final String... permissions) {
+    public <T> ObservableTransformer<T, Boolean> ensure(final Context context,final Params... permissions) {
         return new ObservableTransformer<T, Boolean>() {
             @Override
             public ObservableSource<Boolean> apply(Observable<T> o) {
@@ -98,7 +98,7 @@ public class XPermission {
      * to ask the user if he allows the permissions.
      */
     @SuppressWarnings("WeakerAccess")
-    public <T> ObservableTransformer<T, Permission> ensureEach(final Context context,final String... permissions) {
+    public <T> ObservableTransformer<T, Permission> ensureEach(final Context context,final Params... permissions) {
         return new ObservableTransformer<T, Permission>() {
             @Override
             public ObservableSource<Permission> apply(Observable<T> o) {
@@ -112,8 +112,8 @@ public class XPermission {
      * of your application</b>.
      */
     @SuppressWarnings({"WeakerAccess", "unused"})
-    public Observable<Boolean> request(Context context,final String... permissions) {
-        return Observable.just(TRIGGER).compose(ensure(context,permissions));
+    public Observable<Boolean> request(Context context,final Params permission) {
+        return Observable.just(TRIGGER).compose(ensure(context,permission));
     }
 
     /**
@@ -121,8 +121,8 @@ public class XPermission {
      * of your application</b>.
      */
     @SuppressWarnings({"WeakerAccess", "unused"})
-    public Observable<Permission> requestEach(Context context,final String... permissions) {
-        return Observable.just(TRIGGER).compose(ensureEach(context,permissions));
+    public Observable<Permission> requestEach(Context context,final Params permission) {
+        return Observable.just(TRIGGER).compose(ensureEach(context,permission));
     }
 
     /**
@@ -153,7 +153,7 @@ public class XPermission {
 //        }
         return PermissionsPageManager.getIntent(context,permission);
     }
-    private Observable<Permission> request(final Context context,final Observable<?> trigger, final String... permissions) {
+    private Observable<Permission> request(final Context context,final Observable<?> trigger, final Params... permissions) {
         if (permissions == null || permissions.length == 0) {
             throw new IllegalArgumentException("XPermission.request/requestEach requires at least one input permission");
         }
@@ -166,8 +166,8 @@ public class XPermission {
                 });
     }
 
-    private Observable<?> pending(final String... permissions) {
-        for (String p : permissions) {
+    private Observable<?> pending(final Params... permissions) {
+        for (Params p : permissions) {
             if (!XPermissionActivity.containsByPermission(p)) {
                 return Observable.empty();
             }
@@ -183,33 +183,34 @@ public class XPermission {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private Observable<Permission> requestImplementation(Context context,final String... permissions) {
+    private Observable<Permission> requestImplementation(Context context,final Params... permissions) {
         List<Observable<Permission>> list = new ArrayList<>(permissions.length);
         List<String> unrequestedPermissions = new ArrayList<>();
 
         // In case of multiple permissions, we create an Observable for each of them.
         // At the end, the observables are combined to have a unique response.
-        for (String permission : permissions) {
+        for (Params permission : permissions) {
             XPermissionActivity.log("Requesting permission " + permission);
-            if (isGranted(context,permission)) {
+            if (isGranted(context,permission.permissionName)) {
                 // Already granted, or not Android M
                 // Return a granted Permission object.
-                list.add(Observable.just(new Permission(permission, true, false)));
+                list.add(Observable.just(new Permission(permission.permissionName, true, false)));
                 continue;
             }
 
-            if (isRevoked(context,permission)) {
-                // Revoked by a policy, return a denied Permission object.
-                list.add(Observable.just(new Permission(permission, false, false)));
-                continue;
-            }
-
-            PublishSubject<Permission> subject = XPermissionActivity.getSubjectByPermission(permission);
+//            if (isRevoked(context,permission)) {
+//                // Revoked by a policy, return a denied Permission object.
+//                list.add(Observable.just(new Permission(permission, false, false)));
+//                continue;
+//            }
+            
+            PublishSubject<Permission> subject = XPermissionActivity.getSubjectByPermission(permission.permissionName);
             // Create a new subject if not exists
             if (subject == null) {
-                unrequestedPermissions.add(permission);
+                unrequestedPermissions.add(permission.permissionName);
                 subject = PublishSubject.create();
-                XPermissionActivity.setSubjectForPermission(permission, subject);
+                XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
+                XPermissionActivity.setParams(permission.permissionName,permission.permissionDesc);
             }
 
             list.add(subject);

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/xpermission_bg_chatting_dialog"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:textStyle="bold"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/hint"
+                android:textColor="@color/color_text_title"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="30dp"
+                android:paddingTop="10dp" >
+
+                <com.paozhuanyinyu.runtime.permission.dialog.JustifyTextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="2dip"
+                    android:textColor="@color/color_text_title"
+                    android:textSize="15sp" />
+
+                <com.paozhuanyinyu.runtime.permission.dialog.JustifyTextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:lineSpacingExtra="2dip"
+                    android:textColor="@color/lightblue"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_divider_line" />
+
+        <LinearLayout
+            android:id="@+id/positiveButtonLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/negativeButton"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:background="@drawable/xpermission_selector_btn_bottom_left_radius_day"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@color/color_text_message"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="0.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/color_divider_line" />
+
+            <TextView
+                android:id="@+id/positiveButton"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/xpermission_selector_btn_bottom_right_radius_day"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textStyle="bold"
+                android:textColor="@color/lightblue"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

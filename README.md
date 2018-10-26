@@ -27,7 +27,7 @@ compile 'io.reactivex.rxjava2:rxjava:2.0.6'//由于依赖RxJava2,所以使用时
 ## 使用
 ```
 XPermission.getInstance()
-            .requestEach(context,Manifest.permission.Camera)
+            .requestEach(context,new Params(Manifest.permission.Camera, "拍照"))
             //这里只要是Context就行，不限于Activity,Fragment,且其他代码处也可以使用
             .subscribe(new Consumer<Permission>() {
                 @Override
@@ -35,13 +35,9 @@ XPermission.getInstance()
                     if(permission.granted){
                         //已授权回调
                         Toast.makeText(MainActivity.this,"授权成功",Toast.LENGTH_SHORT).show();
-                    }else if(permission.shouldShowRequestPermissionRationale){
+                    }else{
                         //拒绝授权回调
                         Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
-                    }else{
-                        //勾选了不再提示并且拒绝以及其他各种原因导致没有权限的回调
-                        //这里可以弹框提示去设置/手机管家设置，点击按钮跳转到设置/手机管家，使用接口getSettingsIntent(Context context)获取跳转Intent
-                        Toast.makeText(MainActivity.this,"请去设置里面开启授权",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
