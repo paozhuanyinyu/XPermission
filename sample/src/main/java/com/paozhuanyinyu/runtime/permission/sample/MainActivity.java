@@ -10,12 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.paozhuanyinyu.runtime.permission.Params;
-import com.paozhuanyinyu.runtime.permission.Permission;
 import com.paozhuanyinyu.runtime.permission.XPermission;
 import com.paozhuanyinyu.runtime.sample.R;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 

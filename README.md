@@ -6,7 +6,7 @@ XPermission是一个适配Android6.0运行时权限的库，支持API11，暂时
 *Gradle
 ```
 compile 'com.paozhuanyinyu:permission:1.0.0'
-compile 'io.reactivex.rxjava2:rxjava:2.0.6'//由于依赖RxJava2,所以使用时需引入
+compile 'io.reactivex.rxjava2:rxjava:2.1.0'//由于依赖RxJava2,所以使用时需引入
 ```
 *Maven
 ```
