@@ -400,7 +400,7 @@ public class PermissionsChecker {
         boolean havePermission = false;
         try {
             if (PermissionsPageManager.isMEIZU()) {
-                havePermission = !TextUtils.isEmpty(service.getSubscriberId());
+                havePermission = !TextUtils.isEmpty(service.getDeviceId());
             } else if (PermissionsPageManager.isXIAOMI() || PermissionsPageManager.isOPPO()) {
                 havePermission = !TextUtils.isEmpty(service.getDeviceId());
             } else {
