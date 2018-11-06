@@ -90,13 +90,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int i) {
                 Log.e("MainActivity","onItemClick");
-                PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i], new IPermissionResponse() {
+                PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i],false, new IPermissionResponse() {
                     @Override
                     public void onResponse(int code) {
                         if(code==IPermissionResponse.SUCCESS){
                             Toast.makeText(MainActivity.this,"授权成功",Toast.LENGTH_SHORT).show();
-                        }else{
+                        }else if(code == IPermissionResponse.REFUSE){
                             Toast.makeText(MainActivity.this,"拒绝授权",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"拒绝授权, 请去设置中开启授权",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

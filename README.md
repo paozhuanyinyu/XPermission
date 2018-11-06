@@ -27,7 +27,7 @@ compile 'io.reactivex.rxjava2:rxjava:2.0.6'//由于依赖RxJava2,所以使用时
 ## 使用
 ```
 XPermission.getInstance()
-            .requestEach(context,new Params(Manifest.permission.Camera, "拍照"))
+            .requestEach(context,new Params(Manifest.permission.Camera, "拍照",true))
             //这里只要是Context就行，不限于Activity,Fragment,且其他代码处也可以使用
             .subscribe(new Consumer<Permission>() {
                 @Override

@@ -27,6 +27,14 @@ public class PermissionManager implements IPermissionBehavior {
     }
 
     @Override
+    public void requestPermission(Context context, String permissionName, String permissionDesc, boolean isShowGuide, IPermissionResponse response) {
+        if(behavior==null){
+            init();
+        }
+        behavior.requestPermission(context,permissionName,permissionDesc,isShowGuide,response);
+    }
+
+    @Override
     public void init() {
         behavior = new XPermissionBehavior();
         behavior.init();

@@ -35,7 +35,7 @@ public class XPermissionActivity extends Activity{
     // Contains all the current permission requests.
     // Once granted or denied, they are removed from it.
     private static Map<String, PublishSubject<Permission>> mSubjects = new HashMap<>();
-    private static Map<String, String> mParams = new HashMap<String, String>();
+    private static Map<String, Params> mParams = new HashMap<String, Params>();
     private static boolean mLogging;
     private static String permissionName;
     @Override
@@ -88,6 +88,7 @@ public class XPermissionActivity extends Activity{
             }
         }
         mSubjects.remove(permissionName);
+        mParams.remove(permissionName);
         finish();
     }
 
@@ -118,12 +119,13 @@ public class XPermissionActivity extends Activity{
                     }
                 }
             }
-            if(!granted && !showRequestPermissionRationale){
+            if(!granted && !showRequestPermissionRationale && mParams.get(permissions[i]).isShowGuide){
                 showReadPhoneStateHintDialog(subject,permissions[i]);
             }else{
                 subject.onNext(new Permission(permissions[i], granted, showRequestPermissionRationale));
                 subject.onComplete();
                 mSubjects.remove(permissions[i]);
+                mParams.remove(permissions[i]);
                 finish();
             }
         }
@@ -132,7 +134,7 @@ public class XPermissionActivity extends Activity{
         permissionName = name;
         MyDialog.Builder builder = new MyDialog.Builder(this);
         builder.setTitle(getString(R.string.hint));
-        builder.setMessage(String.format(getString(R.string.message),mParams.get(name)));
+        builder.setMessage(String.format(getString(R.string.message),mParams.get(name).permissionDesc));
         builder.setPositiveButton(getString(R.string.go_to_set), new DialogInterface.OnClickListener() {
 
             @Override
@@ -181,8 +183,8 @@ public class XPermissionActivity extends Activity{
         return mSubjects.put(permission, subject);
     }
 
-    public static void setParams(String permissionName,String permissionDesc){
-        mParams.put(permissionName,permissionDesc);
+    public static void setParams(Params params){
+        mParams.put(params.permissionName,params);
     }
 
     public static void setLogging(boolean logging) {

@@ -111,10 +111,10 @@ public class XPermission {
      * Request permissions immediately, <b>must be invoked during initialization phase
      * of your application</b>.
      */
-    @SuppressWarnings({"WeakerAccess", "unused"})
-    public Observable<Boolean> request(Context context,final Params permission) {
-        return Observable.just(TRIGGER).compose(ensure(context,permission));
-    }
+//    @SuppressWarnings({"WeakerAccess", "unused"})
+//    public Observable<Boolean> request(Context context,final Params permission) {
+//        return Observable.just(TRIGGER).compose(ensure(context,permission));
+//    }
 
     /**
      * Request permissions immediately, <b>must be invoked during initialization phase
@@ -210,7 +210,7 @@ public class XPermission {
                 unrequestedPermissions.add(permission.permissionName);
                 subject = PublishSubject.create();
                 XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
-                XPermissionActivity.setParams(permission.permissionName,permission.permissionDesc);
+                XPermissionActivity.setParams(permission);
             }
 
             list.add(subject);
