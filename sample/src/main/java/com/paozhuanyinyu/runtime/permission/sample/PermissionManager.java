@@ -20,10 +20,7 @@ public class PermissionManager implements IPermissionBehavior {
 
     @Override
     public void requestPermission(Context context, String permissionName, String permissionDesc, IPermissionResponse response) {
-        if(behavior==null){
-            init();
-        }
-        behavior.requestPermission(context,permissionName,permissionDesc,response);
+        requestPermission(context,permissionName,permissionDesc,true,response);
     }
 
     @Override
