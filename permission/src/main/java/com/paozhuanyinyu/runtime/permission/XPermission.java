@@ -53,6 +53,7 @@ public class XPermission {
         }
         return sInstance;
     }
+
     public void setLogging(boolean logging) {
         XPermissionActivity.setLogging(logging);
     }
