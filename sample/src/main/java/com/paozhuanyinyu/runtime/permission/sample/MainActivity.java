@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int i) {
                 Log.e("MainActivity","onItemClick");
-                PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i],false, new IPermissionResponse() {
+                PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i],true, new IPermissionResponse() {
                     @Override
                     public void onResponse(int code) {
                         if(code==IPermissionResponse.SUCCESS){

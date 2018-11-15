@@ -18,14 +18,18 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsChecker;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsPageManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -53,6 +57,15 @@ public class XPermission {
         XPermissionActivity.setLogging(logging);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void initLanguage(Context context, Locale locale){
+        Resources resources = context.getResources();//获得res资源对象
+        Configuration config = resources.getConfiguration();//获得设置对象
+        DisplayMetrics dm = resources.getDisplayMetrics();// 获得屏幕参数：主要是分辨率，像素等。
+        config.setLocale(locale);
+        resources.updateConfiguration(config, dm);
+
+    }
     /**
      * Map emitted items from the source observable into {@code true} if permissions in parameters
      * are granted, or {@code false} if not.

@@ -7,6 +7,8 @@ import com.paozhuanyinyu.runtime.permission.Permission;
 import com.paozhuanyinyu.runtime.permission.XPermission;
 
 
+import java.util.Locale;
+
 import io.reactivex.functions.Consumer;
 
 public class XPermissionBehavior implements IPermissionBehavior {
@@ -35,5 +37,9 @@ public class XPermissionBehavior implements IPermissionBehavior {
     @Override
     public void init() {
 
+    }
+    @Override
+    public void init(Context context,Locale locale) {
+        XPermission.getInstance().initLanguage(context,locale);
     }
 }
