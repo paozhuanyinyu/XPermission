@@ -38,9 +38,4 @@ public class PermissionManager implements IPermissionBehavior {
         behavior = new XPermissionBehavior();
         behavior.init();
     }
-    @Override
-    public void init(Context context,Locale locale) {
-        behavior = new XPermissionBehavior();
-        behavior.init(context,locale);
-    }
 }

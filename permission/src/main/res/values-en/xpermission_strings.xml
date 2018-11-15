@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hint">Hint</string>
-    <string name="confirm">Confirm</string>
-    <string name="cancel">Cancel</string>
-    <string name="go_to_set">Set</string>
-    <string name="message">You rejected the permission: %s .If you want to allow the access now, please go to Settings.</string>
-</resources>

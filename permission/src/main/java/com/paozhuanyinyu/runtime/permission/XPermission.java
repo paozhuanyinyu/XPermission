@@ -56,16 +56,6 @@ public class XPermission {
     public void setLogging(boolean logging) {
         XPermissionActivity.setLogging(logging);
     }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void initLanguage(Context context, Locale locale){
-        Resources resources = context.getResources();//获得res资源对象
-        Configuration config = resources.getConfiguration();//获得设置对象
-        DisplayMetrics dm = resources.getDisplayMetrics();// 获得屏幕参数：主要是分辨率，像素等。
-        config.setLocale(locale);
-        resources.updateConfiguration(config, dm);
-
-    }
     /**
      * Map emitted items from the source observable into {@code true} if permissions in parameters
      * are granted, or {@code false} if not.

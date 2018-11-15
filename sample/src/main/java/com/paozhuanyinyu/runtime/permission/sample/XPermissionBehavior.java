@@ -38,8 +38,4 @@ public class XPermissionBehavior implements IPermissionBehavior {
     public void init() {
 
     }
-    @Override
-    public void init(Context context,Locale locale) {
-        XPermission.getInstance().initLanguage(context,locale);
-    }
 }
