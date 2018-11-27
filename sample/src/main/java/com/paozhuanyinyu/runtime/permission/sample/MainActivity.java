@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         ll_permissions.setAdapter(myAdapter);
         myAdapter.setOnItemClickListener(new MyAdapter.onItemClickListener() {
             @Override
-            public void onClick(int i) {
+            public void onClick(final int i) {
                 Log.e("MainActivity","onItemClick");
                 PermissionManager.getInstance().requestPermission(MainActivity.this, permissions[i], permissionDiscription[i],true, new IPermissionResponse() {
                     @Override

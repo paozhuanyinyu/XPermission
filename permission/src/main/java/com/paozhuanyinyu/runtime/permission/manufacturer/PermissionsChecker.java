@@ -270,7 +270,7 @@ public class PermissionsChecker {
      */
     private static boolean checkWriteStorage(Context activity) throws Exception {
         File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).getPath(), TAG);
+                Environment.DIRECTORY_DOWNLOADS).getPath(), TAG);
         if (!file.exists()) {
             boolean newFile;
             try {
@@ -294,7 +294,7 @@ public class PermissionsChecker {
      */
     private static boolean checkReadStorage(Context activity) throws Exception {
         File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).getPath());
+                Environment.DIRECTORY_DOWNLOADS).getPath());
         File[] files = file.listFiles();
         return files != null;
     }
