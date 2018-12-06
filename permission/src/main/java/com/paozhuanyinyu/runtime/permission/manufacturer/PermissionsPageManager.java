@@ -35,30 +35,32 @@ public class PermissionsPageManager {
         }
     }
     public static Intent getIntent(Context context) {
-        //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
         PermissionsPage permissionsPage = new Protogenesis();
-        try {
-            if (MANUFACTURER_HUAWEI.equalsIgnoreCase(manufacturer)) {
-                permissionsPage = new HUAWEI();
-            } else if (MANUFACTURER_OPPO.equalsIgnoreCase(manufacturer)) {
-                permissionsPage = new OPPO();
-            } else if (MANUFACTURER_VIVO.equalsIgnoreCase(manufacturer)) {
-                permissionsPage = new VIVO();
-            } else if (MANUFACTURER_XIAOMI.equalsIgnoreCase(manufacturer)) {
-                permissionsPage = new XIAOMI();
-            }
-//            else if (MANUFACTURER_MEIZU.equalsIgnoreCase(manufacturer)) {
-//                permissionsPage = new MEIZU();
+        return ((Protogenesis) permissionsPage).settingIntent(context);
+//        //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
+//        PermissionsPage permissionsPage = new Protogenesis();
+//        try {
+//            if (MANUFACTURER_HUAWEI.equalsIgnoreCase(manufacturer)) {
+//                permissionsPage = new HUAWEI();
+//            } else if (MANUFACTURER_OPPO.equalsIgnoreCase(manufacturer)) {
+//                permissionsPage = new OPPO();
+//            } else if (MANUFACTURER_VIVO.equalsIgnoreCase(manufacturer)) {
+//                permissionsPage = new VIVO();
+//            } else if (MANUFACTURER_XIAOMI.equalsIgnoreCase(manufacturer)) {
+//                permissionsPage = new XIAOMI();
 //            }
-            else if(MANUFACTURER_GIONEE.equalsIgnoreCase(manufacturer)){
-                permissionsPage = new GIONEE();
-            }
-            return permissionsPage.settingIntent(context);
-        } catch (Exception e) {
-            Log.e("Permissions4M", "手机品牌为：" + manufacturer + "异常抛出，：" + e.getMessage());
-            permissionsPage = new Protogenesis();
-            return ((Protogenesis) permissionsPage).settingIntent(context);
-        }
+////            else if (MANUFACTURER_MEIZU.equalsIgnoreCase(manufacturer)) {
+////                permissionsPage = new MEIZU();
+////            }
+//            else if(MANUFACTURER_GIONEE.equalsIgnoreCase(manufacturer)){
+//                permissionsPage = new GIONEE();
+//            }
+//            return permissionsPage.settingIntent(context);
+//        } catch (Exception e) {
+//            Log.e("Permissions4M", "手机品牌为：" + manufacturer + "异常抛出，：" + e.getMessage());
+//            permissionsPage = new Protogenesis();
+//            return ((Protogenesis) permissionsPage).settingIntent(context);
+//        }
     }
 
     public static Intent getSettingIntent(Context context) {
