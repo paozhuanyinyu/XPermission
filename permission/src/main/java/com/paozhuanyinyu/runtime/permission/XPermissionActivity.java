@@ -119,7 +119,7 @@ public class XPermissionActivity extends Activity{
                     }
                 }
             }
-            if(!granted && !showRequestPermissionRationale && mParams.get(permissions[i]).isShowGuide){
+            if(!granted && !showRequestPermissionRationale && (mParams.get(permissions[i])!=null && mParams.get(permissions[i]).isShowGuide)){
                 showReadPhoneStateHintDialog(subject,permissions[i]);
             }else{
                 subject.onNext(new Permission(permissions[i], granted, showRequestPermissionRationale));
