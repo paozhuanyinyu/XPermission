@@ -19,11 +19,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsChecker;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsPageManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -35,6 +38,8 @@ public class XPermission {
     static final String TAG = "XPermission";
     static final Object TRIGGER = new Object();
     private static XPermission sInstance;
+    private Map<String, PublishSubject<Permission>> mSubjects = new HashMap<>();
+    private Map<String, Params> mParams = new HashMap<String, Params>();
     private XPermission(){
     }
     public static XPermission getInstance(){
@@ -166,7 +171,7 @@ public class XPermission {
 
     private Observable<?> pending(final Params... permissions) {
         for (Params p : permissions) {
-            if (!XPermissionActivity.containsByPermission(p)) {
+            if (!containsByPermission(p)) {
                 return Observable.empty();
             }
         }
@@ -204,8 +209,8 @@ public class XPermission {
 
             unrequestedPermissions.add(permission.permissionName);
             PublishSubject<Permission> subject = PublishSubject.create();
-            XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
-            XPermissionActivity.setParams(permission);
+            setSubjectForPermission(permission.permissionName, subject);
+            setParams(permission);
 
             list.add(subject);
         }
@@ -257,5 +262,30 @@ public class XPermission {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
+    public  boolean containsByPermission(@NonNull Params permission) {
+        return mSubjects.containsKey(permission);
+    }
 
+    public void setSubjectForPermission(@NonNull String permission, @NonNull PublishSubject<Permission> subject) {
+        if(mSubjects==null){
+            mSubjects = new HashMap<String, PublishSubject<Permission>>();
+        }
+        mSubjects.clear();
+        mSubjects.put(permission, subject);
+    }
+
+    public void setParams(Params params){
+        if(mParams == null){
+            mParams = new HashMap<String,Params>();
+        }
+        mParams.clear();
+        mParams.put(params.permissionName,params);
+    }
+
+    public Map<String, PublishSubject<Permission>> getSubjects(){
+        return mSubjects;
+    }
+    public Map<String,Params> getParams(){
+        return mParams;
+    }
 }

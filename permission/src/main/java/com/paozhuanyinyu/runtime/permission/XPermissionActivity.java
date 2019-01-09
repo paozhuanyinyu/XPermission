@@ -34,8 +34,6 @@ public class XPermissionActivity extends Activity{
     private static final int GO_TO_SETTINGS_REQUEST_CODE = 43;
     // Contains all the current permission requests.
     // Once granted or denied, they are removed from it.
-    private static Map<String, PublishSubject<Permission>> mSubjects = new HashMap<>();
-    private static Map<String, Params> mParams = new HashMap<String, Params>();
     private static boolean mLogging;
     private static String permissionName;
     @Override
@@ -69,7 +67,7 @@ public class XPermissionActivity extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
         try{
             if(requestCode == GO_TO_SETTINGS_REQUEST_CODE) {
-                PublishSubject<Permission> subject = mSubjects.get(permissionName);
+                PublishSubject<Permission> subject = XPermission.getInstance().getSubjects().get(permissionName);
                 if (Manifest.permission.WRITE_SETTINGS.equals(permissionName) || Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permissionName)) {
                     if(PermissionsChecker.isPermissionGranted(this, permissionName, false)){
                         subject.onNext(new Permission(permissionName, true, true));
@@ -91,8 +89,6 @@ public class XPermissionActivity extends Activity{
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            mSubjects.clear();
-            mParams.clear();
             finish();
         }
     }
@@ -101,7 +97,8 @@ public class XPermissionActivity extends Activity{
         for (int i = 0, size = permissions.length; i < size; i++) {
             log("onRequestPermissionsResult  " + permissions[i]);
             // Find the corresponding subject
-            PublishSubject<Permission> subject = mSubjects.get(permissions[i]);
+            Map<String, PublishSubject<Permission>> map = XPermission.getInstance().getSubjects();
+            PublishSubject<Permission> subject = map.get(permissions[i]);
             boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             boolean showRequestPermissionRationale = shouldShowRequestPermissionRationale[i];
             log("granted: " + granted + "; showRequestPermissionRationale: " + showRequestPermissionRationale);
@@ -123,7 +120,7 @@ public class XPermissionActivity extends Activity{
                     }
                 }
             }
-            if(!granted && !showRequestPermissionRationale && (mParams.get(permissions[i])!=null && mParams.get(permissions[i]).isShowGuide)){
+            if(!granted && !showRequestPermissionRationale && (XPermission.getInstance().getParams().get(permissions[i])!=null && XPermission.getInstance().getParams().get(permissions[i]).isShowGuide)){
                 showReadPhoneStateHintDialog(subject,permissions[i]);
             }else{
                 try{
@@ -132,8 +129,6 @@ public class XPermissionActivity extends Activity{
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    mSubjects.clear();
-                    mParams.clear();
                     finish();
                 }
             }
@@ -143,7 +138,7 @@ public class XPermissionActivity extends Activity{
         permissionName = name;
         MyDialog.Builder builder = new MyDialog.Builder(this);
         builder.setTitle(getString(R.string.hint));
-        builder.setMessage(String.format(getString(R.string.message),mParams.get(name).permissionDesc));
+        builder.setMessage(String.format(getString(R.string.message),XPermission.getInstance().getParams().get(name).permissionDesc));
         builder.setPositiveButton(getString(R.string.go_to_set), new DialogInterface.OnClickListener() {
 
             @Override
@@ -164,8 +159,6 @@ public class XPermissionActivity extends Activity{
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    mSubjects.clear();
-                    mParams.clear();
                     finish();
                 }
 
@@ -182,28 +175,12 @@ public class XPermissionActivity extends Activity{
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    mSubjects.clear();
-                    mParams.clear();
                     finish();
                 }
 
             }
         });
         dialog.show();
-    }
-
-    public static boolean containsByPermission(@NonNull Params permission) {
-        return mSubjects.containsKey(permission);
-    }
-
-    public static void setSubjectForPermission(@NonNull String permission, @NonNull PublishSubject<Permission> subject) {
-        mSubjects.clear();
-        mSubjects.put(permission, subject);
-    }
-
-    public static void setParams(Params params){
-        mParams.clear();
-        mParams.put(params.permissionName,params);
     }
 
     public static void setLogging(boolean logging) {
