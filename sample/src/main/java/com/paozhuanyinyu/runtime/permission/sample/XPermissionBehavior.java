@@ -8,7 +8,6 @@ import com.paozhuanyinyu.runtime.permission.XPermission;
 
 
 import java.util.Locale;
-
 import io.reactivex.functions.Consumer;
 
 public class XPermissionBehavior implements IPermissionBehavior {

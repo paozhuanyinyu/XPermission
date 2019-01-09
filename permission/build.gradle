@@ -18,8 +18,8 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.rxJava
-    implementation rootProject.ext.supportAnnotations
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.supportAnnotations
 }
 
 

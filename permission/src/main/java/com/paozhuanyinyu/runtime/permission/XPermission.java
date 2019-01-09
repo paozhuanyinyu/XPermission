@@ -207,7 +207,6 @@ public class XPermission {
             XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
             XPermissionActivity.setParams(permission);
 
-
             list.add(subject);
         }
         if (!unrequestedPermissions.isEmpty()) {
@@ -232,7 +231,7 @@ public class XPermission {
      */
     @SuppressWarnings("WeakerAccess")
     boolean isGranted(Context context,String permission) {
-        return !isMarshmallow() || isPermissionGranted(context,permission);
+        return !isMarshmallow() || isGranted(context,permission,false);
     }
 
     /**
