@@ -37,7 +37,7 @@ public class PermissionsPageManager {
     public static Intent getIntent(Context context) {
         PermissionsPage permissionsPage = new Protogenesis();
         return ((Protogenesis) permissionsPage).settingIntent(context);
-//        //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
+        //金立权限管理界面：com.mediatek.security/.ui.PermissionControlPageActivity;GIONEE
 //        PermissionsPage permissionsPage = new Protogenesis();
 //        try {
 //            if (MANUFACTURER_HUAWEI.equalsIgnoreCase(manufacturer)) {

@@ -67,29 +67,34 @@ public class XPermissionActivity extends Activity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GO_TO_SETTINGS_REQUEST_CODE) {
-            PublishSubject<Permission> subject = mSubjects.get(permissionName);
-            if (Manifest.permission.WRITE_SETTINGS.equals(permissionName) || Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permissionName)) {
-                if(PermissionsChecker.isPermissionGranted(this, permissionName, false)){
-                    subject.onNext(new Permission(permissionName, true, true));
-                    subject.onComplete();
-                }else{
-                    subject.onNext(new Permission(permissionName, false, false));
-                    subject.onComplete();
-                }
-            } else {
-                if (PermissionsChecker.isPermissionGranted(this, permissionName, true)) {
-                    subject.onNext(new Permission(permissionName, true, true));
-                    subject.onComplete();
-                }else{
-                    subject.onNext(new Permission(permissionName, false, false));
-                    subject.onComplete();
+        try{
+            if(requestCode == GO_TO_SETTINGS_REQUEST_CODE) {
+                PublishSubject<Permission> subject = mSubjects.get(permissionName);
+                if (Manifest.permission.WRITE_SETTINGS.equals(permissionName) || Manifest.permission.SYSTEM_ALERT_WINDOW.equals(permissionName)) {
+                    if(PermissionsChecker.isPermissionGranted(this, permissionName, false)){
+                        subject.onNext(new Permission(permissionName, true, true));
+                        subject.onComplete();
+                    }else{
+                        subject.onNext(new Permission(permissionName, false, false));
+                        subject.onComplete();
+                    }
+                } else {
+                    if (PermissionsChecker.isPermissionGranted(this, permissionName, true)) {
+                        subject.onNext(new Permission(permissionName, true, true));
+                        subject.onComplete();
+                    }else{
+                        subject.onNext(new Permission(permissionName, false, false));
+                        subject.onComplete();
+                    }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            mSubjects.clear();
+            mParams.clear();
+            finish();
         }
-        mSubjects.remove(permissionName);
-        mParams.remove(permissionName);
-        finish();
     }
 
     void onRequestPermissionsResult(String permissions[], int[] grantResults, boolean[] shouldShowRequestPermissionRationale) {
@@ -97,7 +102,6 @@ public class XPermissionActivity extends Activity{
             log("onRequestPermissionsResult  " + permissions[i]);
             // Find the corresponding subject
             PublishSubject<Permission> subject = mSubjects.get(permissions[i]);
-//            mSubjects.remove(permissions[i]);
             boolean granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
             boolean showRequestPermissionRationale = shouldShowRequestPermissionRationale[i];
             log("granted: " + granted + "; showRequestPermissionRationale: " + showRequestPermissionRationale);
@@ -122,11 +126,16 @@ public class XPermissionActivity extends Activity{
             if(!granted && !showRequestPermissionRationale && (mParams.get(permissions[i])!=null && mParams.get(permissions[i]).isShowGuide)){
                 showReadPhoneStateHintDialog(subject,permissions[i]);
             }else{
-                subject.onNext(new Permission(permissions[i], granted, showRequestPermissionRationale));
-                subject.onComplete();
-                mSubjects.remove(permissions[i]);
-                mParams.remove(permissions[i]);
-                finish();
+                try{
+                    subject.onNext(new Permission(permissions[i], granted, showRequestPermissionRationale));
+                    subject.onComplete();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    mSubjects.clear();
+                    mParams.clear();
+                    finish();
+                }
             }
         }
     }
@@ -141,8 +150,6 @@ public class XPermissionActivity extends Activity{
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
                 Intent intent = XPermission.getInstance().getSettingsIntent(XPermissionActivity.this,name);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                intent.setData(uri);
                 startActivityForResult(intent,GO_TO_SETTINGS_REQUEST_CODE);
             }
         });
@@ -151,10 +158,17 @@ public class XPermissionActivity extends Activity{
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
-                subject.onNext(new Permission(name, false, false));
-                subject.onComplete();
-                mSubjects.remove(name);
-                finish();
+                try{
+                    subject.onNext(new Permission(name, false, false));
+                    subject.onComplete();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    mSubjects.clear();
+                    mParams.clear();
+                    finish();
+                }
+
             }
         });
         MyDialog dialog = builder.build();
@@ -162,28 +176,33 @@ public class XPermissionActivity extends Activity{
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                subject.onNext(new Permission(name, false, false));
-                subject.onComplete();
-                mSubjects.remove(name);
-                finish();
+                try{
+                    subject.onNext(new Permission(name, false, false));
+                    subject.onComplete();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    mSubjects.clear();
+                    mParams.clear();
+                    finish();
+                }
+
             }
         });
         dialog.show();
-    }
-
-    public static PublishSubject<Permission> getSubjectByPermission(@NonNull String permission) {
-        return mSubjects.get(permission);
     }
 
     public static boolean containsByPermission(@NonNull Params permission) {
         return mSubjects.containsKey(permission);
     }
 
-    public static PublishSubject<Permission> setSubjectForPermission(@NonNull String permission, @NonNull PublishSubject<Permission> subject) {
-        return mSubjects.put(permission, subject);
+    public static void setSubjectForPermission(@NonNull String permission, @NonNull PublishSubject<Permission> subject) {
+        mSubjects.clear();
+        mSubjects.put(permission, subject);
     }
 
     public static void setParams(Params params){
+        mParams.clear();
         mParams.put(params.permissionName,params);
     }
 

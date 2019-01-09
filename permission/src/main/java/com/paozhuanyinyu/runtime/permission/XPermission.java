@@ -18,18 +18,12 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsChecker;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsPageManager;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -207,19 +201,15 @@ public class XPermission {
 //                list.add(Observable.just(new Permission(permission, false, false)));
 //                continue;
 //            }
-            
-            PublishSubject<Permission> subject = XPermissionActivity.getSubjectByPermission(permission.permissionName);
-            // Create a new subject if not exists
-            if (subject == null) {
-                unrequestedPermissions.add(permission.permissionName);
-                subject = PublishSubject.create();
-                XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
-                XPermissionActivity.setParams(permission);
-            }
+
+            unrequestedPermissions.add(permission.permissionName);
+            PublishSubject<Permission> subject = PublishSubject.create();
+            XPermissionActivity.setSubjectForPermission(permission.permissionName, subject);
+            XPermissionActivity.setParams(permission);
+
 
             list.add(subject);
         }
-
         if (!unrequestedPermissions.isEmpty()) {
             String[] unrequestedPermissionsArray = unrequestedPermissions.toArray(new String[unrequestedPermissions.size()]);
             requestPermissionsFromActivity(context,unrequestedPermissionsArray);

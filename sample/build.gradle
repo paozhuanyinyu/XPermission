@@ -18,6 +18,6 @@ android {
 }
 
 dependencies {
-    compile project(':permission')
-    compile rootProject.ext.appCompat
+    implementation project(':permission')
+    implementation rootProject.ext.appCompat
 }
