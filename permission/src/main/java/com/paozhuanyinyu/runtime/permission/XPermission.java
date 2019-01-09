@@ -220,7 +220,6 @@ public class XPermission {
         XPermissionActivity.log("requestPermissionsFromActivity " + TextUtils.join(", ", permissions));
         Intent intent = new Intent(context,XPermissionActivity.class);
         intent.putExtra("permissions",permissions);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
