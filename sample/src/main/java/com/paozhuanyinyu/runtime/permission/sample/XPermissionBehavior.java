@@ -5,9 +5,6 @@ import android.content.Context;
 import com.paozhuanyinyu.runtime.permission.Params;
 import com.paozhuanyinyu.runtime.permission.Permission;
 import com.paozhuanyinyu.runtime.permission.XPermission;
-
-
-import java.util.Locale;
 import io.reactivex.functions.Consumer;
 
 public class XPermissionBehavior implements IPermissionBehavior {

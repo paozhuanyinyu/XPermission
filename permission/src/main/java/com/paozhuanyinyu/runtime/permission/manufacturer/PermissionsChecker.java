@@ -269,8 +269,7 @@ public class PermissionsChecker {
      * @throws Exception
      */
     private static boolean checkWriteStorage(Context activity) throws Exception {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS).getPath(), TAG);
+        File file = new File(Environment.getExternalStorageDirectory().getPath(), TAG);
         if (!file.exists()) {
             boolean newFile;
             try {
@@ -293,10 +292,10 @@ public class PermissionsChecker {
      * @throws Exception
      */
     private static boolean checkReadStorage(Context activity) throws Exception {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS).getPath());
+        File file = new File(Environment.getExternalStorageDirectory().getPath());
         File[] files = file.listFiles();
-        return files != null;
+        boolean isHaveReadStorage = files != null;
+        return isHaveReadStorage;
     }
 
     /**
@@ -393,7 +392,7 @@ public class PermissionsChecker {
      * @return true if success
      * @throws Exception
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     private static boolean checkReadPhoneState(Context activity) throws Exception {
         TelephonyManager service = (TelephonyManager) activity.getSystemService
                 (TELEPHONY_SERVICE);
@@ -409,7 +408,7 @@ public class PermissionsChecker {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        Log.e(TAG, "havePermission: " + havePermission + ";deviceId: " + service.getDeviceId() + ";subscriberId: " + service.getSubscriberId());
         return havePermission;
     }
 
