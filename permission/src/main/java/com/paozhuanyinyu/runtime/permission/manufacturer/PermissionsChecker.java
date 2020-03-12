@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -70,7 +71,7 @@ public class PermissionsChecker {
                 case Manifest.permission.READ_CALL_LOG:
                     return checkReadCallLog(activity);
                 case Manifest.permission.READ_PHONE_STATE:
-                    boolean havePermission = checkReadPhoneState(activity);
+                    boolean havePermission = isPermissionGranted(activity,permission);
                     return havePermission;
                 case Manifest.permission.CALL_PHONE:
                     return defaultValue;
@@ -134,6 +135,10 @@ public class PermissionsChecker {
             Log.e(TAG, "throwing exception in PermissionChecker:  ", e);
         }
         return false;
+    }
+    @TargetApi(Build.VERSION_CODES.M)
+    static boolean isPermissionGranted(Context context,String permission) {
+        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 //    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 //    private static void show(Context mContext) {
