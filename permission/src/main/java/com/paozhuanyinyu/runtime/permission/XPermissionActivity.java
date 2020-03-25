@@ -2,6 +2,7 @@ package com.paozhuanyinyu.runtime.permission;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +28,7 @@ import static com.paozhuanyinyu.runtime.permission.XPermission.TAG;
  * Created by Administrator on 2017/11/3.
  */
 
-public class XPermissionActivity extends AppCompatActivity {
+public class XPermissionActivity extends Activity {
     private static final int PERMISSIONS_REQUEST_CODE = 42;
     private static final int GO_TO_SETTINGS_REQUEST_CODE = 43;
     // Contains all the current permission requests.
