@@ -2,7 +2,6 @@ package com.paozhuanyinyu.runtime.permission;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 public class Params implements Parcelable {
     String permissionName;//权限名称
     String permissionDesc;//权限描述

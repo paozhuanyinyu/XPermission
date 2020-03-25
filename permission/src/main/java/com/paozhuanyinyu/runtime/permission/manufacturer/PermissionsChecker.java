@@ -71,7 +71,7 @@ public class PermissionsChecker {
                 case Manifest.permission.READ_CALL_LOG:
                     return checkReadCallLog(activity);
                 case Manifest.permission.READ_PHONE_STATE:
-                    boolean havePermission = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isPermissionGranted(activity,permission);
+                    boolean havePermission = checkReadPhoneState(activity);
                     return havePermission;
                 case Manifest.permission.CALL_PHONE:
                     return defaultValue;
