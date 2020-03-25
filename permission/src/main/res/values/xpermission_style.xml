@@ -16,7 +16,7 @@
 -->
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="permission_PermissionActivity" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="permission_PermissionActivity" parent="Theme.AppCompat">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
