@@ -3,13 +3,15 @@ package com.paozhuanyinyu.runtime.permission.sample;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.paozhuanyinyu.runtime.permission.XPermission;
 import com.paozhuanyinyu.runtime.sample.R;
 

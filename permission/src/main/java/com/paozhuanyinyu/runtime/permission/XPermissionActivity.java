@@ -9,14 +9,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.paozhuanyinyu.runtime.permission.dialog.MyDialog;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsChecker;
 import com.paozhuanyinyu.rxpermissions.R;

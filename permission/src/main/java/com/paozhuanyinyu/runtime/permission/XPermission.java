@@ -19,8 +19,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsChecker;
 import com.paozhuanyinyu.runtime.permission.manufacturer.PermissionsPageManager;
 import java.util.ArrayList;
